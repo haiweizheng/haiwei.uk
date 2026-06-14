@@ -11,8 +11,10 @@ tags:
 
 >[!definition] Definition. Neural Network
 >A function
->$$\begin{aligned} f(x) &:\ \mathbb{R}^p\rightarrow \mathbb{R}\\
->&= w \cdot\sigma(W_L \dots \sigma(W_3\,\sigma(W_2 \,\sigma(W_1 x)))) \end{aligned}$$
+>$$
+>\begin{aligned} f(x) &:\ \mathbb{R}^p\rightarrow \mathbb{R}\\
+>&= w \cdot\sigma(W_L \dots \sigma(W_3\,\sigma(W_2 \,\sigma(W_1 x)))) \end{aligned}
+>$$
 
 
 
@@ -22,57 +24,84 @@ tags:
 
 
 Now consider the simplest neural network without hidden layer and without a non-linearity (i.e. *linear regression*):
-$$y = f(x) = wx\quad Y = wX,$$where $(X, Y)$ are given and we look for the "best" $w$ to model this. 
+$$
+y = f(x) = wx\quad Y = wX,
+$$
+where $(X, Y)$ are given and we look for the "best" $w$ to model this.
 
 Assume we have a linear relation, but have noise in the measurements, thus we see
-$$\hat{Y}_{1\times n} = w_{1\times p}X_{p\times n} + N_{1\times n},$$
+$$
+\hat{Y}_{1\times n} = w_{1\times p}X_{p\times n} + N_{1\times n},
+$$
 where $N$ is some Gaussian noise. We want to find the best $\hat{w}$ such that we have
-$$\hat{Y}_{1\times n} = \hat{w}_{1\times p}X_{p\times n},$$
-where we have a system of $n$ linear equations for $p$ variables. 
+$$
+\hat{Y}_{1\times n} = \hat{w}_{1\times p}X_{p\times n},
+$$
+where we have a system of $n$ linear equations for $p$ variables.
 
 ## 6.3. Linear regression: over-determined case ($n > p$)
 
 In the case $n > p$, $\hat{Y} = \hat{w}X$ typically will have no solution and we approximate the non-linear relation (the non-linearity here is created by the noise.) between $\hat{Y}$ and $X$ by the method of least squares: instead of $\hat{Y} = \hat{w}X$ we try to solve *normal equation*
-$$\hat{Y}X^T = \hat{w}XX^T;$$
+$$
+\hat{Y}X^T = \hat{w}XX^T;
+$$
 characterizing a $\hat{w}$ such that $\|\hat{Y}-\hat{w}X\|$ is minimal. Typically, i.e., if $\text{rank}(X) = p < n$, the matrix $XX^T \in \mathbb{R}^{p \times p}$ is invertible, thus
-$$\hat{w} = \hat{Y}X^T(XX^T)^{-1}.$$
+$$
+\hat{w} = \hat{Y}X^T(XX^T)^{-1}.
+$$
 Thus we have made the error
-$$\begin{aligned}  
+$$
+\begin{aligned}
 \|w - \hat{w}\|^2 &= \|w -\underbrace{\hat{Y}}_{=wX+N} X^T(XX^T)^{-1}\|^2\\
 &= \|w - \underbrace{wXX^T(XX^T)^{-1}}_{=1} - NX^T(XX^T)^{-1}\|^2\\
 &= \|NX^T(XX^T)^{-1}\|^2\\
 &= \underbrace{N}_{1\times p}X^T(XX^T)^{-1}(XX^T)^{-1}X\underbrace{N^T}_{p\times 1},\\
-\end{aligned}$$
+\end{aligned}
+$$
 since $\|a\|^2 = aa^*$ for all $a \in \mathbb{R}^{1 \times p}$. Assume now that $N \sim \mathcal{N}(0, \sigma^2 I_n)$ is a Gaussian noise and average the error over $N$:
-$$\begin{aligned}  
+$$
+\begin{aligned}
 E_N [\|w - \hat{w}\|^2] &= E_N [NX^T(XX^T)^{-2}XN^T]\\
 &\stackrel{4.6}{=} \sigma^2 \cdot \text{Tr}\left(X^T(XX^T)^{-2}X\right)\\
 &= \sigma^2 \cdot \text{Tr}\left(XX^T(XX^T)^{-2}\right)\\
 &= \sigma^2 \cdot \text{Tr}\left((XX^T)^{-1}\right)\\
 &= \sigma^2 \frac{p}{n} [\frac 1p\text{Tr}  \left( \frac{1}{n} XX^T \right)^{-1} ].
-\end{aligned}$$
+\end{aligned}
+$$
 
 Assume now ==that $X$ is a standard Gaussian random matrix==, then $\hat{\Sigma} = \frac{1}{n} XX^T$ is a Wishart matrix and the above error converges for $n, p = \gamma n \to \infty$ to $\sigma^2 \gamma S(0)$, where
-$$S(z) = \int \frac{1}{t-z} \psi_{\text{MP}} \, dt$$
+$$
+S(z) = \int \frac{1}{t-z} \psi_{\text{MP}} \, dt
+$$
 is the Stieltjes transform of the Marchenko-Pastur distribution. We know from the proof of Theorem 4.2 that $S(z)$ satisfies the equation
-$$1 + zS(z) = \frac{S(z)}{1 + \gamma S(z)},$$
+$$
+1 + zS(z) = \frac{S(z)}{1 + \gamma S(z)},
+$$
 i.e., for $z = 0$ (note that $S$ has a continuous extension to $\mathbb{R}$ for $\gamma < 1$)
-$$1 = \frac{S(0)}{1 + \gamma S(0)}, \quad \text{so} \quad S(0) = \frac{1}{1 - \gamma}$$
+$$
+1 = \frac{S(0)}{1 + \gamma S(0)}, \quad \text{so} \quad S(0) = \frac{1}{1 - \gamma}
+$$
 and thus
-$$E [\|w - \hat{w}\|^2] = \sigma^2 \frac{\gamma}{1 - \gamma}.$$
+$$
+E [\|w - \hat{w}\|^2] = \sigma^2 \frac{\gamma}{1 - \gamma}.
+$$
 
 ## 6.4. Linear regression: under-determined case ($n < p$)
 
 >[!definition] Definition. Pseudo-inverse
->For all matrix $A\in M^{m\times n}$, $\exists ! A^+\in M^{m\times n}$ that satisfies Moore-Penrose conditions: 
+>For all matrix $A\in M^{m\times n}$, $\exists ! A^+\in M^{m\times n}$ that satisfies Moore-Penrose conditions:
 >1. $AA^+A = A$ and $A^+AA^+ = A^+$
 >2. $(AA^+)^H = AA^+$ and $(A^+A)^H = A^+A$
 
 设 $A = U\Sigma V^T$ 为 SVD，其中 $\Sigma = \text{diag}(\sigma_1, \dots, \sigma_r, 0, \dots, 0)$，$r = \text{rank}(A)$. 则伪逆为
-$$A^+ = V\Sigma^+ U^T,$$
+$$
+A^+ = V\Sigma^+ U^T,
+$$
 其中 $\Sigma^+$ 将每个非零奇异值取倒数，零奇异值保持为零，再转置：
-$$\Sigma^+ = \text{diag}(1/\sigma_1, \dots, 1/\sigma_r, 0, \dots, 0)^T.$$
-直觉上，$A$ 在非零奇异值方向上的作用是拉伸 $\sigma_i$ 倍，伪逆就是在这些方向上缩回 $1/\sigma_i$ 倍，而在零奇异值方向（$A$ 的零空间）上不做任何事. 
+$$
+\Sigma^+ = \text{diag}(1/\sigma_1, \dots, 1/\sigma_r, 0, \dots, 0)^T.
+$$
+直觉上，$A$ 在非零奇异值方向上的作用是拉伸 $\sigma_i$ 倍，伪逆就是在这些方向上缩回 $1/\sigma_i$ 倍，而在零奇异值方向（$A$ 的零空间）上不做任何事.
 
 > [!remark]- 伪逆实战应用
 > **广义逆 $A^+$**：是**尽力而为**。
@@ -103,19 +132,23 @@ $$\Sigma^+ = \text{diag}(1/\sigma_1, \dots, 1/\sigma_r, 0, \dots, 0)^T.$$
 > * **应用：** **精密矩阵估计**、LDA 判别分析、岭回归 (Ridge Regression) 的极限形式。
 
 In the case $n < p$, $\hat{Y} = \hat{w}X$ typically will have infinitely many solutions and we will choose the one with the smallest norm. The same formula that replace the inverse by the pseudo-inverse:
-$$\hat{w} = \hat{Y}X^T(XX^T)^+ = \hat{Y}(X^T X)^{-1}X^T,$$
-where the last equation holds only if $\text{rank}(X) = n < p$. 
+$$
+\hat{w} = \hat{Y}X^T(XX^T)^+ = \hat{Y}(X^T X)^{-1}X^T,
+$$
+where the last equation holds only if $\text{rank}(X) = n < p$.
 >[!lemma] Lemma. 6.1
 >Let $A \in \mathbb{R}^{n \times p}$ with $n < p$ and $\text{rank}(A) = n$. Then
->- $AA^T \in \mathbb{R}^{n \times n}$ is invertible. 
+>- $AA^T \in \mathbb{R}^{n \times n}$ is invertible.
 >- For $y_{n\times 1}$, $x_0 := A^T(AA^T)^{-1}y$ is a **solution** of $Ax = y$ and with **smallest norm**.
 
 ***Remark.*** How to find it?
 - Notice it is for $\hat{Y}^T = X^T_{n\times p}\hat{w}^T$
 - This $\hat{w}$ then is a solution of $\hat{Y} = \hat{w}X$ and has smallest norm among all infinitely many solutions. Notice that
-$$\hat{Y}^T_{n\times1}=X^T_{n\times p}\hat{\omega}^T_{n\times 1} $$
+$$
+\hat{Y}^T_{n\times1}=X^T_{n\times p}\hat{\omega}^T_{n\times 1}
+$$
 
-***Proof.*** 
+***Proof.***
 ***Step 1***
 To verify $\text{rank}(AA^T) = \text{rank}(A^T) = n$
 $$
@@ -130,16 +163,20 @@ Thus $\text{rank}(A^T) = n - \dim \text{Null}(A^T) = n - \dim \text{Null}(AA^T) 
 ***Step 2***
 ① Existence: $Ax_0 = AA^T(AA^T)^{-1}y = y$
 ② Minimum:
-$$ \begin{aligned} \|x\|^2 = \langle x, x \rangle &= \langle (x - x_0) + x_0, (x - x_0) + x_0 \rangle \\ 
-&= \langle x - x_0, x - x_0 \rangle + \langle x_0, x_0 \rangle + \underbrace{2 \langle x - x_0, x_0 \rangle} \\ 
-&\phantom{= \langle x - x_0, x - x_0 \rangle + \langle x_0, x_0 \rangle +}= \langle x - x_0, x_0 \rangle \\ 
-&\phantom{= \langle x - x_0, x - x_0 \rangle + \langle x_0, x_0 \rangle +}= \langle x - x_0, A^T(AA^T)^{-1}y \rangle \\ 
-&\phantom{= \langle x - x_0, x - x_0 \rangle + \langle x_0, x_0 \rangle +}= \langle A(x - x_0), (AA^T)^{-1}y \rangle = 0 \\ 
-&= \|x - x_0\|^2 + \|x_0\|^2 \geq \|x_0\|^2 \end{aligned} $$
+$$
+\begin{aligned} \|x\|^2 = \langle x, x \rangle &= \langle (x - x_0) + x_0, (x - x_0) + x_0 \rangle \\
+&= \langle x - x_0, x - x_0 \rangle + \langle x_0, x_0 \rangle + \underbrace{2 \langle x - x_0, x_0 \rangle} \\
+&\phantom{= \langle x - x_0, x - x_0 \rangle + \langle x_0, x_0 \rangle +}= \langle x - x_0, x_0 \rangle \\
+&\phantom{= \langle x - x_0, x - x_0 \rangle + \langle x_0, x_0 \rangle +}= \langle x - x_0, A^T(AA^T)^{-1}y \rangle \\
+&\phantom{= \langle x - x_0, x - x_0 \rangle + \langle x_0, x_0 \rangle +}= \langle A(x - x_0), (AA^T)^{-1}y \rangle = 0 \\
+&= \|x - x_0\|^2 + \|x_0\|^2 \geq \|x_0\|^2 \end{aligned}
+$$
 
-So in this case, the BEST solution is 
-$$\hat{w} = \hat{Y}(X^T X)^{-1}X^T.$$
-where $\hat{w}$ exactly matches the given noisy data $\hat{Y} = wX + N$. 
+So in this case, the BEST solution is
+$$
+\hat{w} = \hat{Y}(X^T X)^{-1}X^T.
+$$
+where $\hat{w}$ exactly matches the given noisy data $\hat{Y} = wX + N$.
 
 Let us again consider the error
 $$
@@ -170,9 +207,13 @@ $$
 \end{aligned}
 $$
 Notice here the roles of $n$ and $p$ are exchanged! Thus $\frac n p =\frac 1 \gamma$
-$$1 + zS(z) = \frac{S(z)}{1 + \frac 1\gamma S(z)},$$
+$$
+1 + zS(z) = \frac{S(z)}{1 + \frac 1\gamma S(z)},
+$$
 i.e., for $z = 0$ (note that $S$ has a continuous extension to $\mathbb{R}$ for $\frac 1 \gamma < 1$)
-$$1 = \frac{S(0)}{1 + \frac 1\gamma S(0)}, \quad \text{so} \quad S(0) = \frac{1}{1 - \frac 1\gamma}$$
+$$
+1 = \frac{S(0)}{1 + \frac 1\gamma S(0)}, \quad \text{so} \quad S(0) = \frac{1}{1 - \frac 1\gamma}
+$$
 
 ② For $A$:
 $$
@@ -196,7 +237,7 @@ Back to original formula:
 $$
 \begin{aligned}
 \|w - wX(X^TX)^{-1}X^T\|^2 &= \|w\|^2 (1 - \frac{w}{\|w\|} X(X^TX)^{-1}X^T \frac{w^T}{\|w\|})\\
-&= \|w\|^2 \cdot \left( 1 - \frac{1}{p} \operatorname{tr}(X(X^TX)^{-1}X^T) \right) \\ &= \|w\|^2 \cdot \left( 1 - \frac{1}{p} \operatorname{tr}(X^TX)(X^TX)^{-1} \right) \\ &= \|w\|^2 \cdot \left( 1 - \frac{n}{p} \right) \xrightarrow[p = \gamma n]{n \to \infty} \|w\|^2 \cdot \left( 1 - \frac{1}{\gamma} \right) 
+&= \|w\|^2 \cdot \left( 1 - \frac{1}{p} \operatorname{tr}(X(X^TX)^{-1}X^T) \right) \\ &= \|w\|^2 \cdot \left( 1 - \frac{1}{p} \operatorname{tr}(X^TX)(X^TX)^{-1} \right) \\ &= \|w\|^2 \cdot \left( 1 - \frac{n}{p} \right) \xrightarrow[p = \gamma n]{n \to \infty} \|w\|^2 \cdot \left( 1 - \frac{1}{\gamma} \right)
 \end{aligned}
 $$
 ## 6.5. Double descent for linear regression
@@ -210,7 +251,7 @@ $$
 
 ## 6.6. Adding layers and non-linearities
 
-Consider now a more interesting neural network by adding one layer and non-linearities. 
+Consider now a more interesting neural network by adding one layer and non-linearities.
 
 ![[6 Neural Networks, Double Descent, Linear Regression-1773481740489.webp|588]]
 $$
