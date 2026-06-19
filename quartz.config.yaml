@@ -13,12 +13,13 @@ configuration:
     - templates
     - .obsidian
   theme:
-    fontOrigin: googleFonts
+    fontOrigin: local
     cdnCaching: true
     typography:
-      header: Schibsted Grotesk
-      body: Source Sans Pro
-      code: IBM Plex Mono
+      title: '"Songti SC", "SimSun", STSong, "Noto Serif SC", serif'
+      header: '"Songti SC", "SimSun", STSong, "Noto Serif SC", serif'
+      body: '"Songti SC", "SimSun", STSong, "Noto Serif SC", serif'
+      code: '"IBM Plex Mono", "Fira Code", "SFMono-Regular", Menlo, Monaco, Consolas, monospace'
     colors:
       lightMode:
         light: "#faf8f8"
@@ -100,6 +101,14 @@ plugins:
     order: 92
   - source: github:quartz-community/fonts
     enabled: true
+    options:
+      fontOrigin: local
+      useThemeFonts: false
+      title: '"Songti SC", "SimSun", STSong, "Noto Serif SC", serif'
+      header: '"Songti SC", "SimSun", STSong, "Noto Serif SC", serif'
+      body: '"Songti SC", "SimSun", STSong, "Noto Serif SC", serif'
+      interface: '"Songti SC", "SimSun", STSong, "Noto Serif SC", serif'
+      code: '"IBM Plex Mono", "Fira Code", "SFMono-Regular", Menlo, Monaco, Consolas, monospace'
   - source: github:quartz-community/remove-draft
     enabled: true
   - source: github:quartz-community/explicit-publish
