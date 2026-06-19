@@ -1,6 +1,4 @@
 ---
-title: Attention
-publish: true
 tags:
   - 注意力机制_attention
   - 深度学习_deep-learning
@@ -25,29 +23,40 @@ tags:
 - 当问到性别为男时, Key 并不包含性别 tag, 故注意力权重溃散到 $k_1,k_2,k_3$.
 
 当固定 $Q$ 为 "年龄较大" 时, 注意力为
+
 $$\mathrm{Attention}=0.7\times v_1+0.05\times v_2+0.25\times v_3.$$
 
 > [!definition] Definition. Attention pool
 > - 给定一个 Query $q$ 和一组 Key-Value 对 $\{(k_i,v_i)\}_{i=1}^n$, 注意力为:
+> 
 > $$\mathrm{Attention}(q,\{(k_i,v_i)\}_{i=1}^n)=\sum_{i=1}^n \alpha(q,k_i)v_i,$$
+> 
 > $\alpha(q,k_i)$ 是 query $q$ 分配给 key $k_i$ 的注意力权重，需满足:
+> 
 > $$\alpha(q,k_i)\ge 0,\quad \sum_{i=1}^n \alpha(q,k_i)=1.$$
 
 实际上, 注意力权重即 ==Q 和 K 之间的匹配程度/相关程度== 有不同的表示方法, 接下来给出两个例子:
 - 来自 *Theory of Probability & Its Applications* ([[#^ref-nadaraya-1964|Nadaraya (1964)]]) 的 Nadaraya-Watson regression
+
 $$\alpha(q,k_i)=\alpha(x,x_i)=\sum_{i=1}^n \frac{K(x-x_i)}{\sum_{j=1}^n K(x-x_j)}$$
+
 - 来自 *Attention is all you need* ([[#^ref-vaswani-2017|Vaswani et al. (2017)]]) 的 scaled dot-product attention
+
 $$
 \alpha(Q,K)=\operatorname{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}\right)
 $$
 
 # 2. N-W 核回归 Nadaraya-Watson regression
 ***Step 1*** 对由
+
 $$y_i=2\sin(x_i)+x_i^{0.8}+\epsilon_i,\quad \epsilon_i \sim \mathcal{N}(0,0.5^2).$$
+
 生成的数据集 $\{(x_1,y_1),\ldots,(x_{50},y_{50})\}$ 做回归.
 
 ***Step 2*** 最简单的预测方法是取平均：
+
 $$f(x)=\frac{1}{n}\sum_{i=1}^n y_i=\sum_{i=1}^n \frac{1}{n} y_i.$$
+
 此时 Query 为 $x$, Key 为 $x_i$, Value 为 $y_i$. 注意力权重为 $\alpha(q,k_i)=\alpha(x,x_i)=\frac 1 n$. 如下图, 拟合效果并不好, 因为我们没有有效的使用 Query 和 Key.
 
 ```tikz
@@ -146,11 +155,17 @@ $$f(x)=\frac{1}{n}\sum_{i=1}^n y_i=\sum_{i=1}^n \frac{1}{n} y_i.$$
 ```
 
 ***Step 3*** [[#^ref-nadaraya-1964|Nadaraya (1964)]] 和 [[#^ref-watson-1964|Watson (1964)]] 提出了 Nadaraya-Watson kernel regression 方法：
+
 $$\begin{aligned} f(x)&=\sum_{i=1}^n \underbrace{{\color{blue}\frac{K(x-x_i)}{\sum_{j=1}^n K(x-x_j)}}}y_i,\quad K\text{ is kernel} \\ &=\sum_{i=1}^n \underbrace{{\color{blue}\alpha(x,x_i)}}_{{\color{blue}\text{注意力权重}}}y_i. \end{aligned}$$
+
 When $K$ is Gaussian kernel
+
 $$K(u)=\frac{1}{\sqrt{2\pi}}\exp\left(-\frac{u^2}{2}\right),$$
+
 we have
+
 $$\begin{aligned} f(x)&=\sum_{i=1}^n \alpha(x,x_i)y_i \\ &=\sum_{i=1}^n \frac{\exp\left(-\frac{1}{2}(x-x_i)^2\right)}{\sum_{j=1}^n \exp\left(-\frac{1}{2}(x-x_j)^2\right)}y_i \\ &=\sum_{i=1}^n \mathrm{softmax}\left(-\frac{1}{2}(x-x_i)^2\right)y_i. \end{aligned}$$
+
 可以看到，新模型的预测曲线更加平滑，并且比平均汇聚更接近真实函数.
 
 ```tikz
@@ -246,15 +261,12 @@ $$\begin{aligned} f(x)&=\sum_{i=1}^n \alpha(x,x_i)y_i \\ &=\sum_{i=1}^n \frac{\e
 
 # 3. 缩放内积注意力 scaled dot-product attention
 It is a part of Transformer from *Attention is all you need* ([[#^ref-vaswani-2017|Vaswani et al. (2017)]]):
+
 $$
 \operatorname{Attention}(Q,K,V)=\operatorname{softmax}\left(\frac{QK^\top}{\sqrt{d_k}}+M\right)V
 $$
-我们简单解释一下这个流程. 一句话说, 注意力就是让每个 token 根据自己的 Query 去和所有 token 的 Key 做匹配, 得到一行权重, 再用这行权重对所有 Value 做加权求和.
-- 输入文本先被 tokenizer 切成 token, 每个 token 变成一行 embedding vector.
-- 对同一个输入矩阵 $X$ 做三次线性变换, 得到 $Q,K,V$.
-- $QK^\top$ 的第 $(i,j)$ 个元素是 $q_i\cdot k_j^\top$, 表示第 $i$ 个 token 对第 $j$ 个 token 的关注分数.
-- softmax 对每一行做归一化, 得到注意力权重 $\alpha_{ij}$, 因此 $\sum_j \alpha_{ij}=1$.
-- 最后用这一行权重加权所有 value vector: $o_i=\sum_j \alpha_{ij}v_j$. 这就是第 $i$ 个 token 汇总上下文后的表示.
+
+我们简单解释一下这个流程:
 <div style="width: 100%; max-width: 900px; box-sizing: border-box; overflow-x: hidden; margin: 10px auto 8px auto; font-family: 'Songti SC', 'STSong', 'SimSun', serif; color: var(--text-normal); line-height: 1.45;">
   <!-- GPT-2 attention structure diagram. Math formulas are kept outside HTML so Obsidian can render LaTeX. -->
   <div style="text-align: center; font-size: 1.15em; font-weight: 700; margin-bottom: 8px;">GPT-2 128M, consider one attention head</div>
