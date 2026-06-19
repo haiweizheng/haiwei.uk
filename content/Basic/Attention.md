@@ -255,14 +255,14 @@ $$
 - $QK^\top$ 的第 $(i,j)$ 个元素是 $q_i\cdot k_j^\top$, 表示第 $i$ 个 token 对第 $j$ 个 token 的关注分数.
 - softmax 对每一行做归一化, 得到注意力权重 $\alpha_{ij}$, 因此 $\sum_j \alpha_{ij}=1$.
 - 最后用这一行权重加权所有 value vector: $o_i=\sum_j \alpha_{ij}v_j$. 这就是第 $i$ 个 token 汇总上下文后的表示.
-<div style="max-width: 900px; margin: 10px auto 8px auto; font-family: 'Songti SC', 'STSong', 'SimSun', serif; color: var(--text-normal); line-height: 1.45;">
+<div style="width: 100%; max-width: 900px; box-sizing: border-box; overflow-x: hidden; margin: 10px auto 8px auto; font-family: 'Songti SC', 'STSong', 'SimSun', serif; color: var(--text-normal); line-height: 1.45;">
   <!-- GPT-2 attention structure diagram. Math formulas are kept outside HTML so Obsidian can render LaTeX. -->
   <div style="text-align: center; font-size: 1.15em; font-weight: 700; margin-bottom: 8px;">GPT-2 128M, consider one attention head</div>
-  <div style="display: flex; justify-content: center; margin-bottom: 6px;">
-    <div style="border: 1px solid var(--background-modifier-border); border-radius: 10px; padding: 8px 16px; background: var(--background-primary); font-size: 1.05em;">I'm going to visualize ...</div>
+  <div style="display: flex; justify-content: center; margin-bottom: 6px; max-width: 100%; box-sizing: border-box;">
+    <div style="max-width: 100%; box-sizing: border-box; border: 1px solid var(--background-modifier-border); border-radius: 10px; padding: 8px 16px; background: var(--background-primary); font-size: 1.05em; overflow-wrap: anywhere;">I'm going to visualize ...</div>
   </div>
   <div style="text-align: center; color: var(--text-muted); margin: 2px 0 4px 0;">↓ tokenizer (分词器)</div>
-  <div style="display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 6px;">
+  <div style="display: flex; justify-content: center; align-items: center; gap: 6px; flex-wrap: wrap; max-width: 100%; box-sizing: border-box; margin-bottom: 6px;">
     <span style="border: 2px solid #1e88e5; border-radius: 6px; padding: 4px 10px; color: #1e88e5; background: rgba(30,136,229,0.08);">I'm</span>
     <span style="border: 2px solid #1e88e5; border-radius: 6px; padding: 4px 10px; color: #1e88e5; background: rgba(30,136,229,0.08);">going</span>
     <span style="border: 2px solid #1e88e5; border-radius: 6px; padding: 4px 10px; color: #1e88e5; background: rgba(30,136,229,0.08);">to</span>
@@ -272,12 +272,12 @@ $$
     <span style="color: #1e88e5; font-weight: 600; margin-left: 4px;">1024 tokens</span>
   </div>
   <div style="text-align: center; color: var(--text-muted); margin: 2px 0 6px 0;">↓ embedding</div>
-  <div style="display: grid; grid-template-columns: minmax(220px, 1fr) minmax(220px, 1fr); gap: 10px; max-width: 650px; margin: 0 auto 8px auto;">
-    <div style="border: 1px solid rgba(239,83,80,0.55); border-radius: 10px; padding: 8px 10px; background: rgba(239,83,80,0.08); text-align: center;">
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; width: 100%; max-width: 650px; box-sizing: border-box; margin: 0 auto 8px auto;">
+    <div style="flex: 1 1 220px; min-width: 0; max-width: 320px; box-sizing: border-box; border: 1px solid rgba(239,83,80,0.55); border-radius: 10px; padding: 8px 10px; background: rgba(239,83,80,0.08); text-align: center;">
       <div style="color: #ef5350; font-weight: 700;">token embedding</div>
-      <div style="font-size: 0.92em; color: var(--text-muted);">what the words mean</div>
+      <div style="font-size: 0.92em; color: var(--text-muted);">what the word means</div>
     </div>
-    <div style="border: 1px solid rgba(239,83,80,0.55); border-radius: 10px; padding: 8px 10px; background: rgba(239,83,80,0.08); text-align: center;">
+    <div style="flex: 1 1 220px; min-width: 0; max-width: 320px; box-sizing: border-box; border: 1px solid rgba(239,83,80,0.55); border-radius: 10px; padding: 8px 10px; background: rgba(239,83,80,0.08); text-align: center;">
       <div style="color: #ef5350; font-weight: 700;">position embedding</div>
       <div style="font-size: 0.92em; color: var(--text-muted);">where the word is located</div>
     </div>
