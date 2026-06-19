@@ -12,6 +12,26 @@ configuration:
     - private
     - templates
     - .obsidian
+    - 随机矩阵与机器学习/**
+    - Basic/.DS_Store
+    - Basic/2D Holder.md
+    - Basic/Gamma Function & Stirling Formula.md
+    - Basic/LU Cholesky Decomposition.md
+    - Basic/NAChapter6.md
+    - Basic/Norms.md
+    - Basic/Polar decomposition.md
+    - Basic/SVD.md
+    - Basic/Sylvester' Determinant Identity.md
+    - Basic/Taylor Series.md
+    - Basic/多元函数积分学.md
+    - Basic/多元正态分布.md
+    - Basic/格林公式、高斯公式、斯托克斯公式.md
+    - Basic/矩阵分析散碎知识点.md
+    - Basic/酉相似.md
+    - Basic/attachments/SVD-*.webp
+    - Basic/attachments/Taylor Series-*.webp
+    - Basic/attachments/attention-01.webp
+    - Basic/attachments/格林公式、高斯公式、斯托克斯公式-*.webp
   theme:
     fontOrigin: local
     cdnCaching: true
@@ -112,7 +132,7 @@ plugins:
   - source: github:quartz-community/remove-draft
     enabled: true
   - source: github:quartz-community/explicit-publish
-    enabled: false
+    enabled: true
   - source: github:quartz-community/alias-redirects
     enabled: true
   - source: github:quartz-community/content-index
@@ -123,7 +143,7 @@ plugins:
   - source: github:quartz-community/favicon
     enabled: true
   - source: github:quartz-community/og-image
-    enabled: true
+    enabled: false
   - source: github:quartz-community/cname
     enabled: true
   - source: github:quartz-community/canvas-page

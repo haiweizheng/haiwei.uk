@@ -1,4 +1,6 @@
 ---
+title: Attention
+publish: true
 tags:
   - 注意力机制_attention
   - 深度学习_deep-learning
