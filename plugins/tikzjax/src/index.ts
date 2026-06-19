@@ -28,7 +28,7 @@ const defaultOptions: Required<Omit<TikzJaxOptions, "addToPreamble">> &
   },
   tikzLibraries: "arrows.meta,calc,positioning,matrix,decorations.pathreplacing",
   addToPreamble: undefined,
-  embedFontCss: true,
+  embedFontCss: false,
   fontCssUrl: "https://cdn.jsdelivr.net/npm/node-tikzjax@1.0.5/css/fonts.css",
   disableOptimize: true,
 }
@@ -76,10 +76,6 @@ ${trimmed}
 \\end{document}`
 }
 
-function svgDataUrl(svg: string): string {
-  return `data:image/svg+xml;base64,${Buffer.from(svg).toString("base64")}`
-}
-
 async function cachedRender(source: string, opts: TikzJaxOptions): Promise<string> {
   const cacheDir = path.join(process.cwd(), ".quartz-cache", "tikzjax")
   const hash = createHash("sha256")
@@ -119,9 +115,7 @@ function tikzRemarkPlugin(opts: TikzJaxOptions) {
         (async () => {
           const source = normalizeTikzSource(node.value)
           const svg = await cachedRender(source, opts)
-          const html = `<figure class="tikzjax"><img class="tikzjax__image" src="${svgDataUrl(
-            svg,
-          )}" alt="TikZ diagram" loading="lazy" decoding="async"></figure>`
+          const html = `<figure class="tikzjax">${svg}</figure>`
 
           Object.assign(node, {
             type: "html",
@@ -147,6 +141,9 @@ export const TikzJax: QuartzTransformerPlugin<Partial<TikzJaxOptions>> = (userOp
       return {
         css: [
           {
+            content: opts.fontCssUrl,
+          },
+          {
             content: `
 figure.tikzjax {
   margin: 1.5rem auto;
@@ -154,9 +151,10 @@ figure.tikzjax {
   overflow-x: auto;
 }
 
-figure.tikzjax img.tikzjax__image {
+figure.tikzjax > svg {
   max-width: 100%;
   height: auto;
+  display: inline-block;
 }
 
 `,

@@ -111,7 +111,7 @@ plugins:
   - source: ./plugins/tikzjax
     enabled: true
     options:
-      embedFontCss: true
+      embedFontCss: false
       disableOptimize: true
       fontCssUrl: https://cdn.jsdelivr.net/npm/node-tikzjax@1.0.5/css/fonts.css
       tikzLibraries: arrows.meta,calc,positioning,matrix,decorations.pathreplacing
