@@ -1,3 +1,25 @@
 @use "./variables.scss" as *;
 
 // put your custom CSS here!
+
+article .katex-display {
+  box-sizing: border-box;
+  display: block;
+  max-width: 100%;
+  overflow: hidden;
+  text-align: center;
+}
+
+article .katex-display > .katex {
+  display: inline-block;
+  max-width: none;
+  transform-origin: top center;
+}
+
+article .katex-display.katex-display--scaled {
+  text-align: left;
+}
+
+article .katex-display.katex-display--scaled > .katex {
+  transform-origin: top left;
+}

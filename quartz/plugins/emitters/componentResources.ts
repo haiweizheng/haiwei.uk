@@ -84,6 +84,57 @@ async function joinScripts(scripts: string[]): Promise<string> {
 function addGlobalPageResources(ctx: BuildCtx, componentResources: ComponentResources) {
   const cfg = ctx.cfg.configuration
 
+  componentResources.afterDOMLoaded.push(`
+    let katexDisplayResizeFrame = 0
+
+    const fitKatexDisplayMath = () => {
+      const displays = document.querySelectorAll(".katex-display")
+
+      for (const display of displays) {
+        const katex = display.querySelector(":scope > .katex")
+        if (!(katex instanceof HTMLElement) || !(display instanceof HTMLElement)) continue
+
+        display.classList.remove("katex-display--scaled")
+        display.style.height = ""
+        katex.style.transform = ""
+
+        const availableWidth = display.clientWidth
+        if (availableWidth <= 0) continue
+
+        const naturalWidth = Math.ceil(katex.scrollWidth || katex.getBoundingClientRect().width)
+        const naturalHeight = Math.ceil(katex.scrollHeight || katex.getBoundingClientRect().height)
+        if (naturalWidth <= availableWidth || naturalHeight <= 0) continue
+
+        const scale = availableWidth / naturalWidth
+        display.classList.add("katex-display--scaled")
+        display.style.height = Math.ceil(naturalHeight * scale) + "px"
+        katex.style.transform = "scale(" + scale + ")"
+      }
+    }
+
+    const scheduleKatexDisplayMathFit = () => {
+      if (katexDisplayResizeFrame) cancelAnimationFrame(katexDisplayResizeFrame)
+      katexDisplayResizeFrame = requestAnimationFrame(() => {
+        katexDisplayResizeFrame = 0
+        fitKatexDisplayMath()
+      })
+    }
+
+    window.addEventListener("resize", scheduleKatexDisplayMathFit, { passive: true })
+    document.addEventListener("nav", scheduleKatexDisplayMathFit)
+    document.addEventListener("render", scheduleKatexDisplayMathFit)
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", scheduleKatexDisplayMathFit)
+    } else {
+      scheduleKatexDisplayMathFit()
+    }
+
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(scheduleKatexDisplayMathFit)
+    }
+  `)
+
   // popovers
   if (cfg.enablePopovers) {
     componentResources.afterDOMLoaded.push(popoverScript)
