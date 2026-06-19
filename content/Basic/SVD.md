@@ -1,3 +1,6 @@
+---
+draft: true
+---
 ![[SVD-1775226622135.webp]]
 
 >[!proposition] Symmetric matrix spectral theorem

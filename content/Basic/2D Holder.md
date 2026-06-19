@@ -1,3 +1,6 @@
+---
+draft: true
+---
 “2D Hölder 不等式”通常就是把普通 Hölder 不等式用在二维指标或二维区域上.
 对矩阵/二维数组版本: 若 $p,q>1$, 且 $\frac1p+\frac1q=1$, 则
 $$\sum_i\sum_j |a_{ij}b_{ij}| \le \left(\sum_i\sum_j |a_{ij}|^p\right)^{1/p}\left(\sum_i\sum_j |b_{ij}|^q\right)^{1/q}.$$

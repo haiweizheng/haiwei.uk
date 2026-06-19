@@ -1,3 +1,6 @@
+---
+draft: true
+---
 # Chapter 6: Direct Methods for Linear Systems
 
 "Solving linear equations is the single most important problem of linear algebra and probably of applied mathematics in general." — K. Lange [28]

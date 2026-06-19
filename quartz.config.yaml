@@ -23,14 +23,15 @@ configuration:
     - Basic/SVD.md
     - Basic/Sylvester' Determinant Identity.md
     - Basic/Taylor Series.md
+    - Basic/*.pdf
     - Basic/多元函数积分学.md
     - Basic/多元正态分布.md
     - Basic/格林公式、高斯公式、斯托克斯公式.md
     - Basic/矩阵分析散碎知识点.md
     - Basic/酉相似.md
+    - Basic/attachments/Gamma Function & Striling Formula-*.webp
     - Basic/attachments/SVD-*.webp
     - Basic/attachments/Taylor Series-*.webp
-    - Basic/attachments/attention-01.webp
     - Basic/attachments/格林公式、高斯公式、斯托克斯公式-*.webp
   theme:
     fontOrigin: local

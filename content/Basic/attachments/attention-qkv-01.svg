@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="750" height="230" viewBox="0 0 750 230" role="img" aria-labelledby="title desc">
+  <title id="title">Query, Key, Value diagram</title>
+  <desc id="desc">Raw data is mapped to Query, Key, and Value through three arrows.</desc>
+  <style>
+    :root {
+      color-scheme: light dark;
+    }
+    .box {
+      fill: #ffffff;
+      stroke: #d6d6d6;
+      stroke-width: 1.4;
+    }
+    .text {
+      fill: #1f1f1f;
+      font-family: "Songti SC", "STSong", "SimSun", serif;
+      font-size: 18px;
+    }
+    .arrow-line {
+      stroke: #666666;
+    }
+    .arrowhead {
+      fill: #666666;
+    }
+    .highlight {
+      fill: #ffeb3b;
+      fill-opacity: 0.55;
+    }
+    @media (prefers-color-scheme: dark) {
+      .box {
+        fill: #202124;
+        stroke: #55585c;
+      }
+      .text {
+        fill: #e8eaed;
+      }
+      .arrow-line {
+        stroke: #b0b3b8;
+      }
+      .arrowhead {
+        fill: #b0b3b8;
+      }
+    }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" viewBox="0 0 10 10" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 1 1 L 9 5 L 1 9 L 3.2 5 Z" class="arrowhead"/>
+    </marker>
+  </defs>
+
+  <rect class="box" x="20" y="45" width="130" height="140" rx="10"/>
+  <rect class="highlight" x="38" y="82" width="94" height="28" rx="5"/>
+  <text class="text" text-anchor="middle">
+    <tspan x="85" y="102">原始数据</tspan>
+    <tspan x="85" y="137">例: 银行账单</tspan>
+  </text>
+
+  <path d="M 154 96 C 188 96, 218 45, 262 45" fill="none" class="arrow-line" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowhead)"/>
+  <path d="M 154 115 C 190 115, 225 115, 262 115" fill="none" class="arrow-line" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowhead)"/>
+  <path d="M 154 134 C 188 134, 218 185, 262 185" fill="none" class="arrow-line" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#arrowhead)"/>
+
+  <rect class="box" x="268" y="20" width="470" height="50" rx="10"/>
+  <rect class="highlight" x="284" y="31" width="154" height="28" rx="5"/>
+  <text class="text" x="294" y="51">
+    <tspan font-weight="700">Query</tspan><tspan>: 查询条件</tspan>
+  </text>
+  <text class="text" x="444" y="51">, 例: 大于 60 岁的人</text>
+
+  <rect class="box" x="268" y="90" width="470" height="50" rx="10"/>
+  <rect class="highlight" x="284" y="101" width="225" height="28" rx="5"/>
+  <text class="text" x="294" y="121">
+    <tspan font-weight="700">Key</tspan><tspan>: 原始数据的特征标签</tspan>
+  </text>
+  <text class="text" x="515" y="121">, 例: {姓, 名, 年龄}</text>
+
+  <rect class="box" x="268" y="160" width="470" height="50" rx="10"/>
+  <rect class="highlight" x="284" y="171" width="288" height="28" rx="5"/>
+  <text class="text" x="294" y="191">
+    <tspan font-weight="700">Value</tspan><tspan>: 原始数据中我们想要的信息</tspan>
+  </text>
+  <text class="text" x="578" y="191">, 例: 每个人的电费</text>
+</svg>
