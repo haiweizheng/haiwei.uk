@@ -1,0 +1,63 @@
+{
+  "name": "quartz-tikzjax",
+  "version": "0.1.0",
+  "description": "Render TikZ code blocks to SVG during Quartz builds.",
+  "type": "module",
+  "license": "MIT",
+  "private": true,
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup && node ./scripts/copy-assets.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@quartz-community/types": "github:quartz-community/types",
+    "node-tikzjax": "^1.0.5",
+    "unist-util-visit": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/mdast": "^4.0.4",
+    "@types/node": "^25.0.10",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=22",
+    "npm": ">=10.9.2"
+  },
+  "quartz": {
+    "name": "tikzjax",
+    "displayName": "TikZJax",
+    "description": "Render fenced ```tikz blocks to SVG at build time.",
+    "category": "transformer",
+    "version": "0.1.0",
+    "quartzVersion": ">=5.0.0",
+    "requiresInstall": true,
+    "dependencies": [],
+    "defaultOrder": 85,
+    "defaultEnabled": false,
+    "defaultOptions": {
+      "embedFontCss": true,
+      "disableOptimize": true,
+      "fontCssUrl": "https://cdn.jsdelivr.net/npm/node-tikzjax@1.0.5/css/fonts.css",
+      "tikzLibraries": "arrows.meta,calc,positioning,matrix,decorations.pathreplacing",
+      "texPackages": {
+        "amsmath": "intlimits",
+        "amssymb": "",
+        "amsfonts": ""
+      }
+    }
+  }
+}

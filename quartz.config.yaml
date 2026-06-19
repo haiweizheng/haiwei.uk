@@ -108,6 +108,18 @@ plugins:
     options:
       renderEngine: katex
     order: 80
+  - source: ./plugins/tikzjax
+    enabled: true
+    options:
+      embedFontCss: true
+      disableOptimize: true
+      fontCssUrl: https://cdn.jsdelivr.net/npm/node-tikzjax@1.0.5/css/fonts.css
+      tikzLibraries: arrows.meta,calc,positioning,matrix,decorations.pathreplacing
+      texPackages:
+        amsmath: intlimits
+        amssymb: ""
+        amsfonts: ""
+    order: 82
   - source: github:quartz-community/citations
     enabled: false
     order: 85
